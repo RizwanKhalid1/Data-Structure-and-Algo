@@ -1,0 +1,95 @@
+Stack.h
+typedef int itemtype;
+#include<iostream>
+#include<conio.h>
+using namespace std;
+#define STACK_CAPA  100
+class stack
+{
+private:
+	int top;
+	int array[STACK_CAPA];
+public:
+	stack();
+	bool isempty();
+	bool isfull();
+	void push(itemtype);
+	itemtype pop(); 
+	itemtype mytop();
+	void conversion();
+};
+Stack.cpp
+#include"Stack.h"
+stack::stack()
+{
+	top = 0;	
+}
+bool stack::isempty(){
+	if (top == 0)
+		return true;
+	else
+		return false;
+}
+bool stack::isfull(){
+	if (top > STACK_CAPA- 1)
+		return true;
+	else
+		return false;
+}
+void stack::push( itemtype value)
+{
+	if (!isfull())
+	{
+		++top;
+		array[top] = value;
+		
+	}
+	else cout << " stack Overflow!";
+}
+
+itemtype stack::pop()
+{
+	if (!isempty())
+	{
+		
+		return (array[top--]);
+	}
+	else
+	{
+		cout << "Stack Underflow!";
+		return 0;
+	}
+}
+
+itemtype stack::mytop(){
+	return array[top];
+}
+void stack::conversion(){
+	int number;
+	cout << "Enter Number to convert:";
+	cin >> number;
+	while (number > 0)
+	{
+		int remiander = number % 2;
+		number /= 2;
+		push(remiander);
+	}
+	while (mytop() >= 0)
+	{
+		cout << pop();
+	}
+	cout << endl;
+}
+
+Main.cpp
+#include<iostream>
+using namespace std;
+#include "stack.h"
+
+int main()
+{
+	stack s;
+	s.conversion();
+	_getch();
+	return 0;
+
