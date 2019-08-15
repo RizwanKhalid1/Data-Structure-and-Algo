@@ -1,0 +1,100 @@
+Stack.h:
+typedef char itemtype;
+#define stack_capacity 100
+#include<iostream>
+#include<conio.h>
+#include<string>
+using namespace std;
+class stack
+{
+private:
+	int top;
+	int length;
+	int count;
+	char str[stack_capacity];
+	itemtype stackArray[stack_capacity];
+public:
+	stack();
+	bool isEmpty();
+	bool isFUll();
+	void push(itemtype);
+	itemtype pop();
+	itemtype mytop();
+	void display();
+	void getstringtochk();
+	void checkpalindrome();
+	
+};
+
+
+Stack.cpp:
+#include "stack.h"
+stack::stack()
+{
+	top = -1;
+	length = 0;
+	count = 0;
+}
+bool stack::isEmpty(){
+	if (top == -1)
+		return true;
+	else
+		return false;
+}
+bool stack::isFUll(){
+	if (top > stack_capacity - 1)
+		return true;
+	else
+		return false;
+}
+void stack::push(itemtype item){
+	if (!isFUll()){
+		top++;
+		stackArray[top] =item;
+	}
+	else
+		cout << "Stack is full:";
+}
+itemtype stack::pop(){
+	if (!isEmpty())
+		return stackArray[top--];
+	else
+		return -1;
+
+}	
+itemtype stack:: mytop(){
+	if (!isEmpty())
+		return stackArray[top];
+}
+void stack::display(){
+	for (int i = top; i >= 0; i--){
+		cout<<stackArray[i];
+	}
+	}
+void stack::getstringtochk(){
+	cout << "Enter the string:";
+	cin>>str;
+	length = strlen(str);
+}
+void stack::checkpalindrome(){
+		for (int i = 0; i < length; i++){
+			push(str[i]);
+		}
+		for (int i = 0; i < length;i++){
+			if (str[i] == pop())
+				count++;
+	}
+		if (count == length) {
+			cout << "\n Entered string is a Palindrome. \n";
+		}
+		else  cout << "\n Entered string is not a Palindrome. \n";
+}
+Main.cpp:
+#include"stack.h"
+int main(){
+	stack s;
+	s.getstringtochk();
+	s.checkpalindrome();
+	_getch();
+		return 0;
+}
