@@ -1,0 +1,187 @@
+#include<iostream>
+#include<conio.h>
+using namespace std;
+class Node{
+public:
+	int data;
+	Node* next;
+};
+class Clist{
+	Node* head;
+public:
+	Clist()
+	{
+		head = NULL;
+	}
+	bool isEmpty()
+	{
+		if (head == NULL)
+			return true;
+		else
+			return false;
+	}
+	Node* newnode(int d)
+	{
+		Node* temp = new Node;
+		temp->data = d;
+		temp->next = NULL;
+		return temp;
+	}
+	void insertdfirst(int d)
+	{
+		Node* temp = head;
+		Node* ptr = newnode(d);
+		if (temp == NULL)
+		{
+			head = ptr;
+			ptr->next = head;
+		}
+		else
+		{
+			Node* temp = head;
+			while (temp->next != head)
+			{
+				temp = temp->next;
+			}
+			temp->next = ptr;
+			ptr->next = head;
+			head = ptr;
+		}
+	}
+	void insertlast(int d)
+	{
+		Node* ptr = newnode(d);
+		Node* temp = head;
+		 if (temp->next == head)
+		{
+			temp->next = ptr;
+			ptr->next = head;
+		}
+		else
+		{
+			while (temp->next != head)
+			{
+				temp = temp->next;
+			}
+			temp->next = ptr;
+			ptr->next = head;
+		}
+	}
+	void deletefirst()
+	{
+		Node* ptr = head;
+		Node* temp = head;
+		if (temp->next == head)
+		{
+			head = NULL;
+			delete temp;
+		}
+		else
+		{
+			while (temp->next != head)
+			{
+				temp = temp->next;
+			}
+			temp->next = head->next;
+			head = temp->next;
+			delete ptr;
+		}
+	}
+	void deletelast()
+	{
+		Node* ptr = NULL;
+		Node* temp = head;
+		if (temp->next == head)
+		{
+			head = NULL;
+			delete temp;
+		}
+		else
+		{
+			while (temp->next != head)
+			{
+				ptr = temp;
+				temp = temp->next;
+			}
+			ptr->next = head;
+			delete temp;
+		}
+	}
+	void insertafter(int oldv, int newv)
+	{
+		bool flag = true;
+		Node* ptr = newnode(newv);
+		Node* temp = head;
+		if (temp == NULL)
+			cout << "empty!!!";
+		else if (temp->next == head)
+		{
+			temp->next = ptr;
+			ptr->next = head;
+		}
+		else
+		{
+			while (temp->data != oldv)
+			{
+				temp = temp->next;
+				if (temp==head)
+				{
+					flag = false;
+					cout << "Not inserted!!!";
+				}
+				ptr->next = temp->next;
+				temp->next = ptr;
+			
+			}
+		}
+	}
+	void deleteafter(int oldv, int newv)
+	{ 
+		bool flag = false;
+		Node* temp = head;
+		if (temp == NULL || temp->next == head)
+			cout << "Can't deleted!!!";
+		else
+		{
+			while (temp->next != head)
+			{
+				if (temp->data == oldv&&temp->next->data == newv)
+				{
+					flag = true;
+					Node* ptr = temp->next;
+					temp->next = ptr->next;
+					delete ptr;
+				}
+				else
+				{
+					temp = temp->next;
+				}
+			}
+		}
+	}
+	void display()
+	{
+		Node* temp = head;
+		while (temp ->next!= head)
+		{
+			cout << temp->data << endl;
+			temp = temp->next;
+		}
+		cout << temp->data;
+	}
+
+};
+void main()
+{
+	Clist c;
+	c.insertdfirst(3);
+	c.insertlast(9);
+	c.insertdfirst(2);
+	c.insertdfirst(7);
+	//c.deletefirst();
+	//c.deletelast();
+	c.insertafter(2, 4);
+	c.deleteafter(4, 3);
+	c.display();
+	_getch();
+}
