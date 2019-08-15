@@ -1,125 +1,164 @@
-List.h:
-#pragma once
-typedef int listType;
 #include<iostream>
 #include<conio.h>
 using namespace std;
-class Node
-{
+class Node{
 public:
-	listType data;
+	int data;
 	Node* next;
-
 };
-class List
-{
-private:
+class List{
 	Node* head;
 public:
-	List();
-	Node* newNode(listType item);
-	void insertFirst(listType item);
-	void insertLast(listType item);
-	void insertAfter(listType prev,listType newItem);
-	void display();
-	listType deleteFirst();
-};
-List.cpp:
-#include"List.h"
-List::List()
-{
-	head=NULL;
-}
-Node* List::newNode(listType item)
-{
-	Node* n=new Node;
-	n->data=item;
-	n->next=NULL;
-	return n;
-}
-void List::insertLast(listType item)
-{
-	Node*n =newNode(item);
-	if(head==NULL)
-		head=n;
-	else
+	List()
 	{
-		Node*ptr=head;
-		while(ptr->next!=NULL)
+		head = NULL;
+	}
+	Node* newnode(int d)
+	{
+		Node * temp = new Node;
+		temp->data = d;
+		temp->next = NULL;
+		return temp;
+	}
+	void insertfirst(int d)
+	{
+		Node* temp = head;
+		Node* ptr = newnode(d);
+		if (temp == NULL)
 		{
-				ptr=ptr->next;
+			head=ptr;
 		}
-		ptr->next=n;
-	}
-}
-void List::insertFirst(listType item)
-{
-	Node* n=newNode(item);
-	n->next=head;
-	head=n;
-}
-void List::insertAfter(listType prev,listType newItem)
-{
-	if(head==NULL)
-	{
-		cout<<"List is Empty: Element cannot be inserted!"<<endl;
-	}
-	else
-	{
-		Node*ptr=head;
-		bool found=true;
-		while(ptr->data!=prev)
+		else
 		{
-			ptr=ptr->next;
-			if(ptr==NULL)//means that we reached end
+			ptr->next = temp;
+			head = ptr;
+		}
+	}
+	void deletefirst()
+	{
+		Node* temp = head;
+		if (temp == NULL)
+		{
+			cout << "List is Empty!!!";
+		}
+		else
+		{
+			head = head->next;
+			delete temp;
+		}
+	}
+	void insertlast(int v)
+	{
+		Node* temp = head;
+		Node* ptr = newnode(v);
+		
+	
+		
+			while (temp->next != NULL)
 			{
-				found=false;
-				cout<<"Element not found. List cannot be updated"<<endl;;
-				break;
+				temp=temp->next;
 			}
+			temp->next = ptr;
+			ptr->next = NULL;
 
-		}
-		if(found==true)
-		{
-			Node*n=newNode(newItem);
-			n->next=ptr->next;
-			ptr->next=n;
-		}
 	}
-
-}
-void List::display()
-{
-	Node*ptr=head;
-	while(ptr!=NULL)
+	void deletelast()
 	{
-		cout<<ptr->data<<endl;
-		ptr=ptr->next;
+		Node* temp = head;
+		Node* pred = NULL;
+		if (temp == NULL)
+		{
+			cout << "list is Empty!!!";
+		}
+		else
+		{
+			while (temp->next != NULL)
+			{
+				pred = temp;
+				temp = temp->next;
+			}
+			pred->next = NULL;
+			delete temp;
+		}
+
 	}
-}
-listType List::deleteFirst()
-{
-	Node*ptr=head;
-	head=head->next;
-	listType x=ptr->data;
-	delete ptr;
-	return x;
-}
-Main.cpp
-#include"List.h"
+	void insertafter(int oldv, int newv)
+	{
+		Node* temp = head;
+		bool flag = true;
+		Node* ptr = newnode(newv);
+		if (head == NULL)
+		{
+			cout << "Link lIst is Empty!!!";
+		}
+		else
+		{
+			while (temp->data != oldv)
+			{
+				temp = temp->next;
+				if (temp == NULL)
+				{
+					flag = false;
+					cout << "Element not Exist!!!!";
+				}
+			}
+			ptr->next = temp->next;
+			temp->next = ptr;
+			
+		}
+	}
+	void deleteafter(int oldv, int newv)
+	{
+		bool flag = false;
+		Node* temp = head;
+		if (temp == NULL||temp->next==NULL)
+		{
+			cout << "List is Empty!!!!";
+		}
+		else
+		{
+			while (temp->next != NULL)
+			{
+				if (temp->data == oldv&&temp->next->data == newv)
+				{
+					flag = true;
+					Node* ptr = temp->next;
+					temp->next = ptr->next;
+					delete ptr;
+				}
+				else
+					temp = temp->next;
+			}
+			if (flag == false)
+			{
+				cout << "Elememnt cann't be deleted!!!!";
+			}
+		}
+
+	}
+	void display()
+	{
+		Node* temp = head;
+		while (temp != NULL)
+		{
+			cout << temp->data << endl;
+			temp = temp->next;
+		}	
+	}
+};
 void main()
 {
 	List l;
-	l.insertLast(9);
-	l.insertFirst(2);
-	l.insertFirst(1);
-	l.insertAfter(2,5);
-	l.insertAfter(2,3);
-	l.insertAfter(3,4);
-	l.insertLast(10);
-	listType x=l.deleteFirst();
-	cout<<x <<endl<<endl<<endl;
+	l.insertfirst(2);
+	l.insertfirst(4);
+	l.insertfirst(3);
+	l.insertlast(8);
+	l.deletelast();
+	l.insertafter(4, 5);
+	l.deleteafter(3, 4);
+	//l.deletefirst();
 	l.display();
 	_getch();
 }
+
 
