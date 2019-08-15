@@ -1,0 +1,178 @@
+Stack.h:
+
+#include<iostream>
+#include<conio.h>
+using namespace std;
+class node{
+public:
+	int data;
+	node* next;
+};
+class Stack{
+private:
+	node* top;
+public:
+	Stack();
+	void push(int);
+	void pop();
+	bool isEmpty();
+	void display();
+
+};
+
+
+
+
+
+
+
+
+Stack.cpp:
+#include"Stack.h"
+Stack::Stack()
+{
+	top = NULL;
+}
+void Stack::push(int value)
+{
+	node* temp;
+	temp = new node;
+	temp->data = value;
+	temp ->next= NULL;
+	if (top != NULL)
+		temp->next = top;
+	top = temp;
+}
+bool Stack:: isEmpty()
+{
+	if (top == NULL)
+		return true;
+	else
+		return false;
+}
+void Stack::pop()
+{
+	if (top==NULL)
+		cout << "Empty:";
+	else
+	{
+		node* pred;
+		pred = top;
+		top = top->next;
+		delete pred;
+	}
+}
+void Stack::display()
+{
+	node* predptr;
+	predptr = top;
+	while (predptr != NULL)
+	{
+		cout << predptr->data << endl;
+		predptr = predptr->next;
+	}
+}
+Source.Cpp:
+#include"Stack.h"
+void main()
+{
+	Stack s;
+	s.push(2);
+	s.push(3);
+	s.push(4);
+	s.pop();
+	s.display();
+	_getch();
+}
+***************************************************************************************************************************
+                     //Queue using Link LIST
+*******************************************************************************************************************
+
+Queue.h:
+
+#include<iostream>
+#include<conio.h>
+using namespace std;
+class node{
+public:
+	int data;
+	node* next;
+};
+class Queue{
+	node* rare, *front;
+public:
+	Queue();
+	void Enqueue(int);
+	void Dequeue();
+	void display();
+	bool isEmpty();
+
+};
+
+Queue.cpp:
+
+#include"Queue.h"
+Queue::Queue()
+{
+	rare = front = 0;
+}
+bool Queue::isEmpty()
+{
+	if (rare ==NULL&& front==NULL)
+		return true;
+	else
+		return false;
+}
+void Queue::Enqueue(int value)
+{
+	node* temp;
+	temp = new node;
+	temp->data = value;
+	temp->next = NULL;
+	if (rare == NULL)
+	{
+		rare = temp;
+		front = temp;
+	}
+	else
+	{
+		rare->next = temp;
+		rare = temp;
+	}
+}
+void Queue::Dequeue()
+{
+	if (isEmpty())
+		cout << "element:";
+	else
+	{
+		node* temp;
+		temp = front;
+		front = front->next;
+		delete temp;
+	}
+}
+void Queue::display()
+{
+	node* temp;
+	temp = front;
+	while (temp != NULL)
+	{
+		cout << temp->data << endl;
+		temp = temp->next;
+	}
+}
+Source.cpp:
+
+#include"Queue.h"
+void main()
+{
+	Queue q;
+	q.Enqueue(2);
+	q.Enqueue(3);
+	q.Enqueue(4);
+	q.Dequeue();
+	q.display();
+	_getch();
+}
+
