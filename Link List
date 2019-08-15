@@ -1,0 +1,125 @@
+List.h:
+#pragma once
+typedef int listType;
+#include<iostream>
+#include<conio.h>
+using namespace std;
+class Node
+{
+public:
+	listType data;
+	Node* next;
+
+};
+class List
+{
+private:
+	Node* head;
+public:
+	List();
+	Node* newNode(listType item);
+	void insertFirst(listType item);
+	void insertLast(listType item);
+	void insertAfter(listType prev,listType newItem);
+	void display();
+	listType deleteFirst();
+};
+List.cpp:
+#include"List.h"
+List::List()
+{
+	head=NULL;
+}
+Node* List::newNode(listType item)
+{
+	Node* n=new Node;
+	n->data=item;
+	n->next=NULL;
+	return n;
+}
+void List::insertLast(listType item)
+{
+	Node*n =newNode(item);
+	if(head==NULL)
+		head=n;
+	else
+	{
+		Node*ptr=head;
+		while(ptr->next!=NULL)
+		{
+				ptr=ptr->next;
+		}
+		ptr->next=n;
+	}
+}
+void List::insertFirst(listType item)
+{
+	Node* n=newNode(item);
+	n->next=head;
+	head=n;
+}
+void List::insertAfter(listType prev,listType newItem)
+{
+	if(head==NULL)
+	{
+		cout<<"List is Empty: Element cannot be inserted!"<<endl;
+	}
+	else
+	{
+		Node*ptr=head;
+		bool found=true;
+		while(ptr->data!=prev)
+		{
+			ptr=ptr->next;
+			if(ptr==NULL)//means that we reached end
+			{
+				found=false;
+				cout<<"Element not found. List cannot be updated"<<endl;;
+				break;
+			}
+
+		}
+		if(found==true)
+		{
+			Node*n=newNode(newItem);
+			n->next=ptr->next;
+			ptr->next=n;
+		}
+	}
+
+}
+void List::display()
+{
+	Node*ptr=head;
+	while(ptr!=NULL)
+	{
+		cout<<ptr->data<<endl;
+		ptr=ptr->next;
+	}
+}
+listType List::deleteFirst()
+{
+	Node*ptr=head;
+	head=head->next;
+	listType x=ptr->data;
+	delete ptr;
+	return x;
+}
+Main.cpp
+#include"List.h"
+void main()
+{
+	List l;
+	l.insertLast(9);
+	l.insertFirst(2);
+	l.insertFirst(1);
+	l.insertAfter(2,5);
+	l.insertAfter(2,3);
+	l.insertAfter(3,4);
+	l.insertLast(10);
+	listType x=l.deleteFirst();
+	cout<<x <<endl<<endl<<endl;
+	l.display();
+	_getch();
+}
+
