@@ -1,0 +1,119 @@
+#include<iostream>
+#include<conio.h>
+using namespace std;
+class Node{
+public:
+	int data;
+	Node* next, *prev;
+};
+class CDlist{
+private:
+	Node* head;
+public:
+	CDlist()
+	{
+		head = NULL;
+	}
+	Node* newnode(int d)
+	{
+		Node* temp = new Node;
+		temp->next = NULL;
+		temp->prev = NULL;
+		temp->data = d;
+		return temp;
+	}
+	void insert_first(int d)
+	{
+		Node* ptr = newnode(d);
+		if (head == NULL)
+		{
+			head = ptr;
+			ptr->next = head;
+			ptr->prev = head;
+		}
+		else
+		{
+			Node* temp = head;
+			while (temp->next != head)
+			{
+				temp = temp->next;
+			}
+			temp->next = ptr;
+			ptr->prev = temp;
+			ptr->next = head;
+			head->prev = ptr;
+			head = ptr;
+		}
+	}
+	void insert_last(int d)
+	{
+		Node* ptr = newnode(d);
+		if (head == NULL)
+		{
+			head = ptr;
+			ptr->next = head;
+			ptr->prev = head;
+		}
+		else
+		{
+			Node* temp = head;
+			while (temp->next != head)
+			{
+				temp = temp->next;
+			}
+			temp->next = ptr;
+			ptr->prev = temp;
+			ptr->next = head;
+			head->prev = ptr;
+		}
+	}
+	void display()
+	{
+		Node* temp = head;
+		while (temp->next != head)
+		{
+			cout << temp->data << endl;
+			temp = temp->next;
+		}
+		cout << temp->data;
+	}
+	void delete_first()
+	{
+		Node* temp = head;
+		Node* ptr = head;
+		while (temp->next != head)
+		{
+			temp = temp->next;
+		}
+		head = head->next;
+		temp->next = head;
+		head->prev = temp;
+		delete ptr;
+	}
+	void delete_last()
+	{
+		Node* temp = head;
+		while (temp->next != head)
+		{
+			temp = temp->next;
+		}
+		temp->prev->next = head;
+		head->prev = temp->prev;
+		delete temp;
+	}
+};
+void main()
+{
+	CDlist d;
+	d.insert_first(3);
+	d.insert_first(2);
+	d.insert_first(9);
+	d.insert_first(5);
+	d.insert_last(7);
+	//d.delete_first();
+	d.delete_last();
+	d.delete_last();
+	d.delete_last();
+	d.display();
+	_getch();
+}
