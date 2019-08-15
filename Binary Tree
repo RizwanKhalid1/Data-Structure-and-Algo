@@ -1,0 +1,277 @@
+#include<iostream>
+#include<conio.h>
+using namespace std;
+class Node{
+public:
+	int data;
+	Node* left;
+	Node* right;
+};
+class BT{
+private:
+	Node* root;
+	void insert(int d, Node* temp)
+	{
+
+		if (d <= temp->data)
+		{
+			if (temp->left == NULL)
+			{
+				Node* ptr = newnode(d);
+				temp->left = ptr;
+			}
+			else
+			{
+				temp = temp->left;
+				insert(d, temp);
+			}
+		}
+		else
+		{
+			if (temp->right == NULL)
+			{
+				Node* ptr = newnode(d);
+				temp->right = ptr;
+			}
+			else
+			{
+				temp = temp->right;
+				insert(d, temp);
+			}
+		}
+	}
+	void inorder(Node* temp)
+	{
+		if (temp != NULL)
+		{
+			inorder(temp->left);
+			cout << temp->data;
+			inorder(temp->right);
+		}
+	}
+	int search(Node* temp, int d)
+	{
+		if (d == temp->data)
+			return temp->data;
+		else if (d < temp->data)
+		{
+			if (temp->left == NULL)
+			{
+				return temp->left->data;
+			}
+			else
+			{
+				temp = temp->left;
+				search(temp, d);
+			}
+		}
+		else if (d > temp->data)
+		{
+			if (temp->right == NULL)
+			{
+				return temp->right->data;
+			}
+			else
+			{
+				temp = temp->right;
+				search(temp, d);
+			}
+		}
+		else
+		{
+			cout << " value not found in tree!!!";
+		}
+	}
+	int all(Node* temp)
+	{
+		int count = 1;
+		if (temp->left != NULL)
+		{
+			count = count + all(temp->left);
+		}
+		if (temp->right != NULL)
+		{
+			count = count + all(temp->right);
+		}
+		return count;
+	}
+	int countleaf(Node* temp)
+	{
+		if (temp == NULL)
+			return 0;
+		if (temp->left == NULL&&temp->right == NULL)
+			return 1;
+		else
+		{
+			return countleaf(temp->left) + countleaf(temp->right);
+		}
+	}
+	int height(Node* temp)
+	{
+		temp = root;
+		if (temp == NULL)
+			return 0;
+		else
+			return 1 + height(temp->left), height(temp->right);
+	}
+	Node* minvalue(Node* temp)
+	{
+		temp = root;
+		if (temp != NULL)
+		{
+
+			if (temp->left == NULL)
+				return temp;
+			else
+				minvalue(temp->left);
+		}
+	}
+
+public:
+	BT()
+	{
+		root = NULL;
+	}
+	Node* newnode(int d)
+	{
+		Node* temp = new Node;
+		temp->left = NULL;
+		temp->right = NULL;
+		temp->data = d;
+		return temp;
+	}
+	void insert(int d)
+	{
+		Node* ptr = newnode(d);
+		Node* temp = root;
+		if (temp == NULL)
+		{
+			root = ptr;
+		}
+		else
+		{
+			insert(d, temp);
+		}
+	}
+	void inorder()
+	{
+		Node* temp = root;
+		inorder(temp);
+	}
+	int search(int d)
+	{
+		Node* temp = root;
+		if (temp == NULL)
+		{
+			cout << "Tree is Empty!!!";
+		}
+		else
+		{
+			int x;
+			x = search(temp, d);
+			return x;
+		}
+	}
+	int all()
+	{
+		Node* temp = root;
+		int node = 0;
+		if (temp != NULL)
+		{
+			node = all(temp);
+			return node;
+		}
+	}
+	int countleaf()
+	{
+		Node* temp;
+		int leaf = 1;
+		temp = root;
+		if (temp != NULL)
+		{
+
+			leaf = countleaf(temp);
+		}
+		return leaf;
+	}
+	int countnonleaf()
+	{
+		int result;
+		Node* temp = root;
+		int leaf = 0;
+		int total;
+		if (temp == NULL)
+		{
+			return 0;
+		}
+		else
+		{
+			total = all();
+			leaf = countleaf();
+			result = total - leaf;
+		}
+		return result;
+
+	}
+	int height()
+	{
+		Node* temp;
+		temp = root;
+		if (temp == NULL)
+			return 0;
+		else
+		{
+			int x = height(temp);
+			return x;
+		}
+	}
+
+	Node* minvalue()
+	{
+		Node* temp = root;
+		Node* result;
+		if (temp == NULL)
+			cout << "Not found!!!";
+		else
+		{
+			 result= minvalue(temp);
+			return result;
+		}
+		cout << result->data;
+	}
+
+};
+void main()
+{
+	BT b;
+	b.insert(3);
+	b.insert(2);
+	b.insert(5);
+	b.insert(4);
+	b.insert(6);
+	b.insert(8);
+	b.insert(45);
+	b.insert(13);
+	b.insert(7);
+	b.inorder();
+	int c;
+	if (c = b.search(3))
+	{
+		cout <<endl<< "Value found!!!"<<endl << c;
+	}
+	else
+	{
+		cout << "Value not found!!!!!";
+	}
+	c = b.all();
+	cout << endl << "Total Node are :" << c << endl;
+	c = b.countleaf();
+	cout << "leaf node are!!!" << c;
+	c=b.countnonleaf();
+	cout << "NON Leaf Node are!!!!" << c;
+	c = b.height();
+	cout << "height are!!!" << c;
+	 b.minvalue();
+	//cout << "Minimum value!!!!" << c;
+	_getch();
+}
